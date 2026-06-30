@@ -287,6 +287,10 @@
             <div id="quiz-question" style="font-size: 17px; color: #2c3e50; font-weight: bold; background: #f4f7f6; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;"></div>
             <div id="quiz-options" style="display: flex; flex-direction: column;"></div>
             <div id="quiz-feedback" class="feedback-box"></div>
+            
+            <!-- BOTÓN ADMIN: Salto rápido para desarrollo -->
+            <button id="admin-skip-btn" class="btn" style="background-color: #e67e22; padding: 8px 12px; font-size: 12px; margin-top: 15px; align-self: center; opacity: 0.7;" onclick="adminSkipQuiz()">Avanzar como Admin 🛠️</button>
+
             <button id="next-quiz-btn" class="btn" style="display: none; background-color: #3498db; padding: 12px; font-size: 16px; margin-top: 15px; align-self: center;" onclick="nextQuestion()">Siguiente Pregunta →</button>
         </div>
 
@@ -446,6 +450,41 @@
         document.getElementById('success-screen').style.display = 'flex';
     }
 }
+
+// Función exclusiva para desarrollo/admin
+            function adminSkipQuiz() {
+                // Forzamos un marcador perfecto para pasar el candado de negocio (>= 8)
+                correctAnswersCount = 10; 
+                
+                // Escondemos la pantalla actual del quiz
+                document.getElementById('quiz-screen').style.display = 'none';
+                
+                // Configuramos los elementos de la pantalla de éxito
+                let nextBtn = document.getElementById('next-l2-btn');
+                let scoreTxt = document.getElementById('result-score');
+                let textResult = document.getElementById('result-text');
+                let emojiResult = document.getElementById('result-emoji');
+                let titleResult = document.getElementById('result-title');
+                
+                scoreTxt.innerText = "Modo Desarrollador Activo";
+                emojiResult.innerText = "🛠️";
+                titleResult.innerText = "Quiz Saltado (Admin)";
+                textResult.innerText = "Se ha forzado el desbloqueo de la Lección 2. Las lecciones L3, L4 y L5 permanecen bloqueadas.";
+                
+                // Activamos el botón de la pantalla de resultados
+                nextBtn.disabled = false;
+                nextBtn.style.opacity = "1";
+                nextBtn.style.cursor = "pointer";
+                
+                // Desbloqueamos L2 en el menú principal (roadmap) pero dejamos las demás intactas
+                let menuL2 = document.getElementById('btn-l2');
+                menuL2.disabled = false;
+                menuL2.style.opacity = "1";
+                menuL2.style.cursor = "pointer";
+                
+                // Mostramos la pantalla de éxito simulada
+                document.getElementById('success-screen').style.display = 'flex';
+            }
         </script>
 
 </body>
