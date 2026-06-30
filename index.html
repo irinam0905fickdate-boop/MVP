@@ -155,7 +155,7 @@
             <button class="btn" style="background-color: #7f8c8d; padding: 10px; font-size: 14px; margin-bottom: 10px; width: auto;" onclick="document.getElementById('lessons-menu').style.display='none'; document.getElementById('grammar-menu').style.display='flex';">← Volver a Gramática</button>
             <div class="roadmap">
                 <button class="btn-lesson" onclick="document.getElementById('lessons-menu').style.display='none'; document.getElementById('lesson1-content').style.display='flex';">L1</button>
-                <button id="btn-l2" class="btn-lesson" onclick="alert('Abriendo Lección 2')" disabled style="opacity: 0.4; cursor: not-allowed;">L2</button>
+                <button id="btn-l2" class="btn-lesson" onclick="document.getElementById('lessons-menu').style.display='none'; document.getElementById('l2-content').style.display='flex';" disabled style="opacity: 0.4; cursor: not-allowed;">L2</button>
                 <button id="btn-l3" class="btn-lesson" onclick="alert('Abriendo Lección 3')" disabled style="opacity: 0.4; cursor: not-allowed;">L3</button>
                 <button id="btn-l4" class="btn-lesson" onclick="alert('Abriendo Lección 4')" disabled style="opacity: 0.4; cursor: not-allowed;">L4</button>
                 <button id="btn-l5" class="btn-lesson" onclick="alert('Abriendo Lección 5')" disabled style="opacity: 0.4; cursor: not-allowed;">L5</button>
@@ -298,17 +298,36 @@
             <p id="result-text" style="color: #7f8c8d; font-size: 14px; line-height: 1.5; margin-bottom: 25px;"></p>
             
             <!-- Botón Siguiente L2 (Inicia oculto o deshabilitado según los aciertos) -->
-            <button id="next-l2-btn" class="btn" style="background-color: #2ecc71; padding: 15px; font-size: 16px; width: 100%; max-width: 250px; margin-bottom: 15px;" onclick="document.getElementById('success-screen').style.display='none'; document.getElementById('l2-blank-page').style.display='flex';">Siguiente L2 →</button>
+            <button id="next-l2-btn" class="btn" style="background-color: #2ecc71; padding: 15px; font-size: 16px; width: 100%; max-width: 250px; margin-bottom: 15px;" onclick="document.getElementById('success-screen').style.display='none'; document.getElementById('l2-content').style.display='flex';">Siguiente L2 →</button>
             
             <!-- Botón Reiniciar (Siempre visible) -->
             <button id="restart-btn" class="btn" style="background-color: #e74c3c; padding: 12px; font-size: 15px; width: 100%; max-width: 250px;" onclick="document.getElementById('success-screen').style.display='none'; startQuiz();">Volver a intentar 🔄</button>
         </div>
 
-        <!-- HOJA EN BLANCO L2 -->
-        <div id="l2-blank-page" style="display: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; text-align: center;">
-            <h2 style="color: #bdc3c7;">Hoja en Blanco - Lección 2</h2>
-            <p style="color: #bdc3c7; font-style: italic; font-size: 14px;">Próximamente...</p>
-            <button class="btn" style="background-color: #7f8c8d; padding: 10px; font-size: 14px; margin-top: 20px; width: auto;" onclick="document.getElementById('l2-blank-page').style.display='none'; document.getElementById('main-menu').style.display='flex';">Ir al Inicio</button>
+        <!-- LECCIÓN 2: PAST SIMPLE (TEORÍA) -->
+        <div id="l2-content" style="display: none; width: 100%; flex-direction: column; align-items: stretch; text-align: left;">
+            <button class="btn" style="background-color: #7f8c8d; padding: 10px; font-size: 14px; margin-bottom: 20px; width: auto; align-self: flex-start;" onclick="document.getElementById('l2-content').style.display='none'; document.getElementById('lessons-menu').style.display='flex';">← Volver a Lecciones</button>
+            
+            <h2 style="color: #2c3e50; text-align: center; margin-top: 0;">Past Simple - El Pasado</h2>
+            
+            <p style="color: #555; line-height: 1.5; font-size: 15px;">
+                El <strong>Past Simple (Pretérito)</strong> se usa para hablar de acciones que <strong>comenzaron y terminaron</strong> en el pasado (ayer, el año pasado, hace una hora).
+            </p>
+            
+            <div style="background-color: #f8f9fa; border-left: 4px solid #3498db; padding: 12px; margin-bottom: 15px; border-radius: 4px;">
+                <span style="font-size: 13px; color: #7f8c8d; font-weight: bold;">💡 REGLA DE ORO (VERBOS REGULARES)</span>
+                <p style="font-size: 14px; margin: 5px 0 0 0; color: #2c3e50;">
+                    A la mayoría de los verbos en inglés solo les agregas <strong>-ed</strong> al final para transformarlos al pasado.
+                </p>
+            </div>
+
+            <div style="font-size: 14px; color: #2cc771; font-style: italic; background: #ebfef3; padding: 10px; border-radius: 8px; margin-bottom: 20px;">
+                <strong>Ejemplos:</strong><br>
+                • I <em>worked</em> yesterday. (Yo trabajé ayer)<br>
+                • They <em>lived</em> in Mexico. (Ellos vivieron en México)
+            </div>
+
+            <button class="btn" style="background-color: #3498db; padding: 12px; font-size: 16px; margin-top: 15px; align-self: center;" onclick="alert('¡Próximamente el Quiz de la Lección 2!')">Practicar L2 🎯</button>
         </div>
 
         <script>
