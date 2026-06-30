@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English App - MVP</title>
+    <style>
+        /* Aquí le damos estilo de app móvil */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Contenedor que simula la pantalla de un celular */
+        .app-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            max-height: max-content;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        /* Estilo para el menú de botones */
+        .menu-buttons {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Espacio entre botones */
+        }
+
+        /* El diseño de los botones principales */
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Efecto cuando pasas el mouse o lo presionas */
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Estilos para la ruta de lecciones en vertical */
+        .roadmap {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            padding: 20px 0;
+        }
+        /* La línea punteada de fondo */
+        .roadmap::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            border-left: 3px dashed #3498db;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        /* Botones estilo círculo para las lecciones */
+        .btn-lesson {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2;
+            box-shadow: 0px 4px 10px rgba(46, 204, 113, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn-lesson:hover {
+            transform: scale(1.1);
+        }
+    
+    /* Estilo para el globo informativo flotante */
+        .tooltip-box {
+            display: none;
+            position: absolute;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.4;
+            z-index: 10;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+            margin-top: 5px;
+        }
+
+        .quiz-container { display: none; width: 100%; flex-direction: column; align-items: stretch; text-align: left; }
+        .option-btn { background-color: #f8f9fa; color: #2c3e50; border: 2px solid #bdc3c7; padding: 15px; font-size: 16px; border-radius: 10px; cursor: pointer; text-align: left; transition: all 0.2s; margin-bottom: 10px; font-weight: 500; }
+        .option-btn:hover { background-color: #eaecee; border-color: #7f8c8d; }
+        .feedback-box { display: none; padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 14px; line-height: 1.4; font-weight: bold; }
+        
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h1>Learn English</h1>
+        
+        <div id="main-menu" class="menu-buttons">
+            <!-- Tus tres botones principales -->
+            <button class="btn" onclick="document.getElementById('main-menu').style.display='none'; document.getElementById('grammar-menu').style.display='flex';">Grammar</button>
+            <button class="btn" onclick="alert('Sección de Listening en desarrollo')">Listening</button>
+            <button class="btn" onclick="alert('Sección de Speaking en desarrollo')">Speaking</button>
+        </div>
+
+        <div id="grammar-menu" style="display: none; width: 100%; flex-direction: column; gap: 20px;">
+            <button class="btn" style="background-color: #7f8c8d; padding: 10px; font-size: 14px; margin-bottom: 10px;" onclick="document.getElementById('grammar-menu').style.display='none'; document.getElementById('main-menu').style.display='flex';">← Volver al Menú Principal</button>
+            <button class="btn" onclick="document.getElementById('grammar-menu').style.display='none'; document.getElementById('lessons-menu').style.display='flex';">Modo Indicativo (Tiempos Simples)</button>
+            <button class="btn" onclick="alert('Modo Indicativo - Compuestos')">Modo Indicativo (Tiempos Compuestos)</button>
+            <button class="btn" onclick="alert('Gerundios')">Gerundios</button>
+        </div>
+
+        <!-- El nuevo menú de lecciones en ruta punteada -->
+        <div id="lessons-menu" style="display: none; width: 100%; flex-direction: column; align-items: center;">
+            <button class="btn" style="background-color: #7f8c8d; padding: 10px; font-size: 14px; margin-bottom: 10px; width: auto;" onclick="document.getElementById('lessons-menu').style.display='none'; document.getElementById('grammar-menu').style.display='flex';">← Volver a Gramática</button>
+            <div class="roadmap">
+                <button class="btn-lesson" onclick="document.getElementById('lessons-menu').style.display='none'; document.getElementById('lesson1-content').style.display='flex';">L1</button>
+                <button class="btn-lesson" onclick="alert('Abriendo Lección 2')">L2</button>
+                <button class="btn-lesson" onclick="alert('Abriendo Lección 3')">L3</button>
+                <button class="btn-lesson" onclick="alert('Abriendo Lección 4')">L4</button>
+                <button class="btn-lesson" onclick="alert('Abriendo Lección 5')">L5</button>
+            </div>
+        </div>
+
+        <div id="lesson1-content" style="display: none; width: 100%; flex-direction: column; align-items: stretch; text-align: left;">
+            
+            <button class="btn" style="background-color: #7f8c8d; padding: 10px; font-size: 14px; margin-bottom: 20px; width: auto; align-self: center;" onclick="document.getElementById('lesson1-content').style.display='none'; document.getElementById('lessons-menu').style.display='flex';">← Volver a Lecciones</button>
+            
+            <h2 style="color: #2c3e50; text-align: center; margin-top: 0;">Present - Presente</h2>
+            
+            <p style="color: #555; line-height: 1.5; font-size: 15px;">
+                El <strong>Presente Simple</strong> es el tiempo verbal que usas para hablar de tu rutina, de las cosas que haces siempre o de verdades absolutas. 
+            </p>
+            
+            <p style="color: #555; line-height: 1.5; font-size: 15px;">
+                No lo usas para lo que estás haciendo <em>justo ahora</em>, sino para lo que es parte de tu vida normal. 
+                <br><br>
+                <strong>Ejemplo:</strong> 
+                <br>• <em>"I study English"</em> (Estudio inglés - es mi rutina).
+                <br>• <em>"The sun rises in the east"</em> (El sol sale por el este - es una verdad).
+            </p>
+            <button class="btn" style="background-color: #3498db; padding: 12px; font-size: 16px; margin-top: 15px; width: auto; align-self: center;" onclick="document.getElementById('lesson1-content').style.display='none'; document.getElementById('lesson1-structures').style.display='flex'; document.querySelector('.app-container').style.maxHeight='none';">Siguiente →</button>
+        </div>
+
+       <!-- Fase 2 - Estructuras de la Lección 1 -->
+        <div id="lesson1-structures" style="display: none; width: 100%; flex-direction: column; align-items: stretch; text-align: left; position: relative;" onclick="document.getElementById('hint-box').style.display='none'; document.getElementById('hint-box-neg').style.display='none'; document.getElementById('hint-box-afirm').style.display='none';">
+            
+            <!-- Botón para regresar -->
+            <button class="btn" style="background-color: #7f8c8d; padding: 10px; font-size: 14px; margin-bottom: 20px; width: auto; align-self: center;" onclick="document.getElementById('lesson1-structures').style.display='none'; document.getElementById('lesson1-content').style.display='flex'; document.querySelector('.app-container').style.maxHeight='700px';">← Volver</button>
+            
+            <h3 style="color: #2c3e50; text-align: center; margin-top: 0; margin-bottom: 20px;">Estructuras de Control</h3>
+            
+            <p style="color: #555; font-size: 14px; margin-bottom: 15px;">Los puntos (<strong>...</strong>) representan el <strong>complemento</strong> (el resto de tu oración).</p>
+
+            <!--    AFIRMATIVO -->
+            <div style="background-color: #f8f9fa; border-left: 4px solid #3498db; padding: 12px; margin-bottom: 15px; border-radius: 4px; position: relative;">
+                <span style="font-size: 13px; color: #7f8c8d; font-weight: bold;">AFIRMATIVO</span>
+                
+                <div style="font-size: 15px; margin: 5px 0;"><strong>(I, You, We, They)</strong> Verbo simple ...</div>
+                <div style="font-size: 12px; color: #2ecc71; font-style: italic; margin-bottom: 10px; line-height: 1.4;">
+                    <strong>Ejemplo:</strong> We live in Mexico. <br>
+                    <span style="color: #7f8c8d;">(Persona: <strong>We</strong> | Verbo base: <strong>live</strong> | Complemento: <strong>in Mexico</strong>)</span><br>
+                    <span style="color: #2c3e50;">Traducción: Nosotros vivimos en México.</span>
+                </div>
+
+                <!-- Tu nueva estructura afirmativa para terceras personas -->
+                <div style="font-size: 15px; margin: 5px 0; display: inline-block;">
+                    <strong>(He, She, It)</strong> Verbo con S<button style="background: #e67e22; color: white; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; font-weight: bold; cursor: pointer; margin-left: 4px; padding: 0; vertical-align: super;" onclick="event.stopPropagation(); var box=document.getElementById('hint-box-afirm'); box.style.display = (box.style.display==='block') ? 'none' : 'block';">!</button> ...
+                </div>
+
+                <!-- Globo flotante oculto para la afirmación -->
+                <div id="hint-box-afirm" class="tooltip-box">
+                    <strong>¡Regla de Oro!</strong> En las oraciones afirmativas <strong>no usamos el auxiliar Does</strong>. Al no tener un auxiliar que haga el trabajo gramatical, estás obligado a modificar el verbo agregándole una <strong>-s</strong> o <strong>-es</strong> al final cuando hables de <strong>He, She, It</strong>.
+                </div>
+
+                <div style="font-size: 12px; color: #2ecc71; font-style: italic; line-height: 1.4; margin-top: 5px;">
+                    <strong>Ejemplo:</strong> He lives in Mexico. <br>
+                    <span style="color: #7f8c8d;">(Persona: <strong>He</strong> | Verbo con S: <strong>lives</strong> | Complemento: <strong>in Mexico</strong>)</span><br>
+                    <span style="color: #2c3e50;">Traducción: Él vive en México.</span>
+                </div>
+            </div>
+
+            <!-- INTERROGATIVO -->
+            <div style="background-color: #f8f9fa; border-left: 4px solid #9b59b6; padding: 12px; margin-bottom: 15px; border-radius: 4px; position: relative;">
+                <span style="font-size: 13px; color: #7f8c8d; font-weight: bold;">INTERROGATIVO</span>
+                
+                <div style="font-size: 15px; margin: 5px 0;"><strong>Do</strong> (I, You, We, They) Verbo Simple ...?</div>
+                <div style="font-size: 12px; color: #2ecc71; font-style: italic; margin-bottom: 10px; line-height: 1.4;">
+                    <strong>Ejemplo:</strong> Do you speak English? <br>
+                    <span style="color: #7f8c8d;">(Auxiliar: <strong>Do</strong> | Persona: <strong>you</strong> | Verbo base: <strong>speak</strong> | Complemento: <strong>English?</strong>)</span><br>
+                    <span style="color: #2c3e50;">Traducción: ¿Tú hablas inglés?</span>
+                </div>
+
+                <!-- Botón de exponente (!) interactivo al lado de Does -->
+                <div style="font-size: 15px; margin: 5px 0; display: inline-block;">
+                    <strong>Does</strong><button style="background: #e67e22; color: white; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; font-weight: bold; cursor: pointer; margin-left: 4px; padding: 0; vertical-align: super;" onclick="event.stopPropagation(); var box=document.getElementById('hint-box'); box.style.display = (box.style.display==='block') ? 'none' : 'block';">!</button> <strong>(He, She, It)</strong> Verbo Simple ...?
+                </div>
+                
+                <!-- El globo flotante amarillo -->
+                <div id="hint-box" class="tooltip-box">
+                    <strong>¡Ojo aquí!</strong> En las interrogaciones y negaciones de <strong>He, She, It</strong>, el verbo se queda en su forma <strong>simple</strong>. Esto es porque el auxiliar <strong>Does / does not</strong> ya está absorbiendo todo el trabajo gramatical.
+                </div>
+
+                <div style="font-size: 12px; color: #2ecc71; font-style: italic; line-height: 1.4; margin-top: 5px;">
+                    <strong>Ejemplo:</strong> Does he study grammar? <br>
+                    <span style="color: #7f8c8d;">(Auxiliar: <strong>Does</strong> | Persona: <strong>he</strong> | Verbo base: <strong>study</strong> | Complemento: <strong>grammar?</strong>)</span><br>
+                    <span style="color: #2c3e50;">Traducción: ¿Él estudia gramática?</span>
+                </div>
+            </div>
+
+            <!-- NEGATIVO -->
+            <div style="background-color: #f8f9fa; border-left: 4px solid #e74c3c; padding: 12px; margin-bottom: 15px; border-radius: 4px;">
+                <span style="font-size: 13px; color: #7f8c8d; font-weight: bold;">NEGATIVO</span>
+                <div style="font-size: 15px; margin: 5px 0;"><strong>(I, You, We, They) do not</strong> Verbo Simple ...</div>
+                <div style="font-size: 12px; color: #2ecc71; font-style: italic; margin-bottom: 10px; line-height: 1.4;">
+                    <strong>Ejemplo:</strong> They do not understand. <br>
+                    <span style="color: #7f8c8d;">(Persona: <strong>They</strong> | Auxiliar: <strong>do not</strong> | Verbo base: <strong>understand</strong>)</span><br>
+                    <span style="color: #2c3e50;">Traducción: Ellos no entienden.</span>
+                </div>
+                
+                <div style="font-size: 15px; margin: 5px 0; display: inline-block;">
+                    <strong>(He, She, It) does not</strong><button style="background: #e67e22; color: white; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; font-weight: bold; cursor: pointer; margin-left: 4px; padding: 0; vertical-align: super;" onclick="event.stopPropagation(); var box=document.getElementById('hint-box-neg'); box.style.display = (box.style.display==='block') ? 'none' : 'block';">!</button> Verbo Simple...
+                </div>
+
+                <!-- Globo flotante oculto para la sección negativa -->
+                <div id="hint-box-neg" class="tooltip-box">
+                    <strong>¡Ojo aquí!</strong> Al igual que en la pregunta, aquí usamos <strong>does not</strong>, por lo tanto el verbo pierde la "s" y se queda en su forma <strong>simple</strong>. El auxiliar ya hace todo el trabajo.
+                </div>
+
+                <div style="font-size: 12px; color: #2ecc71; font-style: italic; line-height: 1.4; margin-top: 5px;">
+                    <strong>Ejemplo:</strong> She does not play soccer. <br>
+                    <span style="color: #7f8c8d;">(Persona: <strong>She</strong> | Auxiliar: <strong>does not</strong> | Verbo base: <strong>play</strong> | Complemento: <strong>soccer</strong>)</span><br>
+                    <span style="color: #2c3e50;">Traducción: Ella no juega fútbol.</span>
+                </div>
+            </div>
+
+            <button class="btn" style="background-color: #2ecc71; padding: 15px; font-size: 18px; margin-top: 25px; align-self: center;" onclick="document.getElementById('lesson1-structures').style.display='none'; document.querySelector('.app-container').style.maxHeight='700px'; startQuiz();">¡Practicar ahora! 🎯</button>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENEDOR DE EJERCICIOS -->
+        <div id="quiz-screen" class="quiz-container" style="padding: 10px; box-sizing: border-box;">
+            <h3 style="color: #2c3e50; text-align: center; margin-top: 0;">Practice - Ejercicios (L1)</h3>
+            <p style="color: #7f8c8d; font-size: 14px; font-weight: bold; text-align: center;" id="quiz-progress">Pregunta 1 de 10</p>
+            <div id="quiz-question" style="font-size: 17px; color: #2c3e50; font-weight: bold; background: #f4f7f6; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;"></div>
+            <div id="quiz-options" style="display: flex; flex-direction: column;"></div>
+            <div id="quiz-feedback" class="feedback-box"></div>
+            <button id="next-quiz-btn" class="btn" style="display: none; background-color: #3498db; padding: 12px; font-size: 16px; margin-top: 15px; align-self: center;" onclick="nextQuestion()">Siguiente Pregunta →</button>
+        </div>
+
+        <!-- PANTALLA DE RESULTADOS DEL QUIZ -->
+        <div id="success-screen" style="display: none; width: 100%; flex-direction: column; align-items: center; text-align: center; padding: 20px; box-sizing: border-box;">
+            <div id="result-emoji" style="font-size: 50px; margin-bottom: 15px;">🎉</div>
+            <h2 id="result-title" style="color: #2c3e50; margin-bottom: 5px;">¡Resultados!</h2>
+            <p id="result-score" style="font-size: 18px; font-weight: bold; color: #3498db; margin: 0 0 15px 0;"></p>
+            <p id="result-text" style="color: #7f8c8d; font-size: 14px; line-height: 1.5; margin-bottom: 25px;"></p>
+            
+            <!-- Botón Siguiente L2 (Inicia oculto o deshabilitado según los aciertos) -->
+            <button id="next-l2-btn" class="btn" style="background-color: #2ecc71; padding: 15px; font-size: 16px; width: 100%; max-width: 250px; margin-bottom: 15px;" onclick="document.getElementById('success-screen').style.display='none'; document.getElementById('l2-blank-page').style.display='flex';">Siguiente L2 →</button>
+            
+            <!-- Botón Reiniciar (Siempre visible) -->
+            <button id="restart-btn" class="btn" style="background-color: #e74c3c; padding: 12px; font-size: 15px; width: 100%; max-width: 250px;" onclick="document.getElementById('success-screen').style.display='none'; document.getElementById('lessons-menu').style.display='flex'; document.querySelector('.app-container').style.maxHeight='700px';">Reiniciar Lección 🔄</button>
+        </div>
+
+        <!-- HOJA EN BLANCO L2 -->
+        <div id="l2-blank-page" style="display: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; text-align: center;">
+            <h2 style="color: #bdc3c7;">Hoja en Blanco - Lección 2</h2>
+            <p style="color: #bdc3c7; font-style: italic; font-size: 14px;">Próximamente...</p>
+            <button class="btn" style="background-color: #7f8c8d; padding: 10px; font-size: 14px; margin-top: 20px; width: auto;" onclick="document.getElementById('l2-blank-page').style.display='none'; document.getElementById('main-menu').style.display='flex';">Ir al Inicio</button>
+        </div>
+
+        <script>
+            const questions = [
+                { q: "We ____ in Mexico.", options: ["live", "lives", "does live"], correct: 0, reason: "¡Correcto! 'We' pertenece al grupo que usa el verbo en su forma simple.", wrongReason: "¡Tache! Con 'We' el verbo va simple. La 'S' es exclusiva de He, She, It en afirmativo." },
+                { q: "He ____ in Mexico.", options: ["live", "lives", "do live"], correct: 1, reason: "¡Correcto! Al ser una afirmación con 'He' y no haber auxiliar, el verbo obliga a llevar S.", wrongReason: "¡Tache! En afirmativo con 'He, She, It' estás obligado a poner el verbo con S ('lives')." },
+                { q: "Do you ____ English?", options: ["speaks", "speak", "speaking"], correct: 1, reason: "¡Correcto! En la pregunta con 'Do', el verbo se queda en su forma simple.", wrongReason: "¡Tache! Si ya tienes el auxiliar 'Do', el verbo principal siempre va en forma simple." },
+                { q: "____ he study grammar?", options: ["Do", "Does", "Is"], correct: 1, reason: "¡Correcto! 'He' es tercera persona y requiere el auxiliar 'Does' para preguntar.", wrongReason: "¡Tache! Para He, She, It el auxiliar de pregunta siempre es 'Does'." },
+                { q: "Does she ____ soccer?", options: ["plays", "play", "playing"], correct: 1, reason: "¡Correcto! El auxiliar 'Does' ya hace el trabajo, el verbo vuelve a su forma simple.", wrongReason: "¡Tache! Al aparecer 'Does', el verbo ya no lleva S." },
+                { q: "They ____ not understand.", options: ["does", "do", "are"], correct: 1, reason: "¡Correcto! 'They' utiliza el auxiliar negativo 'do not'.", wrongReason: "¡Tache! 'They' pertenece al primer grupo de control, por lo que le corresponde 'do not'." },
+                { q: "She does not ____ soccer.", options: ["play", "plays", "played"], correct: 0, reason: "¡Correcto! En el negativo con 'does not' el verbo se queda simple.", wrongReason: "¡Tache! El auxiliar 'does not' ya absorbe la carga gramatical, el verbo va simple." },
+                { q: "I ____ breakfast every day.", options: ["eats", "eat", "does eat"], correct: 1, reason: "¡Correcto! Con la persona 'I' el verbo se mantiene simple en afirmativo.", wrongReason: "¡Tache! La 'S' al final del verbo solo se activa con He, She, It en afirmativo." },
+                { q: "____ they live here?", options: ["Does", "Do", "Are"], correct: 1, reason: "¡Correcto! Para el grupo (I, You, We, They) se usa el auxiliar 'Do'.", wrongReason: "¡Tache! 'Does' es únicamente para las terceras personas (He, She, It)." },
+                { q: "It ____ not work.", options: ["do", "does", "is"], correct: 1, reason: "¡Correcto! 'It' es tercera persona y su negación es 'does not'.", wrongReason: "¡Tache! 'It' requiere el auxiliar 'does not' para formar el negativo." }
+            ];
+
+            let currentQuestionIndex = 0;
+            let correctAnswersCount = 0;
+
+            function startQuiz() {
+    currentQuestionIndex = 0;
+    correctAnswersCount = 0;
+    document.getElementById('quiz-screen').style.display = 'flex';
+    document.querySelector('.app-container').style.maxHeight = 'max-content';
+    showQuestion();
+    }
+
+            function showQuestion() {
+                let currentQuestion = questions[currentQuestionIndex];
+                document.getElementById('quiz-progress').innerText = "Pregunta " + (currentQuestionIndex + 1) + " de 10";
+                document.getElementById('quiz-question').innerHTML = currentQuestion.q.replace("____", "<span style='color:#3498db; text-decoration:underline;'>&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+                
+                let optionsContainer = document.getElementById('quiz-options');
+                optionsContainer.innerHTML = "";
+                document.getElementById('quiz-feedback').style.display = 'none';
+                document.getElementById('next-quiz-btn').style.display = 'none';
+
+                currentQuestion.options.forEach((option, index) => {
+                    let button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.innerText = option;
+                    button.onclick = () => checkAnswer(index);
+                    optionsContainer.appendChild(button);
+                });
+            }
+
+            function checkAnswer(selectedIndex) {
+                let currentQuestion = questions[currentQuestionIndex];
+                let feedback = document.getElementById('quiz-feedback');
+                let buttons = document.getElementsByClassName('option-btn');
+                
+                for(let b of buttons) { b.disabled = true; }
+
+                if (selectedIndex === currentQuestion.correct) {
+                    correctAnswersCount++;
+                    buttons[selectedIndex].style.backgroundColor = '#d4edda';
+                    buttons[selectedIndex].style.borderColor = '#2ecc71';
+                    buttons[selectedIndex].innerText += " ✅";
+                    feedback.style.backgroundColor = '#d4edda';
+                    feedback.style.color = '#155724';
+                    feedback.innerHTML = currentQuestion.reason;
+                } else {
+                    buttons[selectedIndex].style.backgroundColor = '#f8d7da';
+                    buttons[selectedIndex].style.borderColor = '#e74c3c';
+                    buttons[selectedIndex].innerText += " ❌";
+                    feedback.style.backgroundColor = '#fff3cd';
+                    feedback.style.color = '#856404';
+                    feedback.innerHTML = currentQuestion.wrongReason;
+                }
+                feedback.style.display = 'block';
+                document.getElementById('next-quiz-btn').style.display = 'block';
+            }
+
+            function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion();
+    } else {
+        // Escondemos el cuestionario
+        document.getElementById('quiz-screen').style.display = 'none';
+        
+        // Obtenemos los elementos de la pantalla de éxito
+        let nextBtn = document.getElementById('next-l2-btn');
+        let scoreTxt = document.getElementById('result-score');
+        let textResult = document.getElementById('result-text');
+        let emojiResult = document.getElementById('result-emoji');
+        let titleResult = document.getElementById('result-title');
+        
+        // Inyectamos la calificación final
+        scoreTxt.innerText = "Calificación: " + correctAnswersCount + " / 10";
+        
+        // Aplicamos el candado de negocio (Mínimo 8 aciertos)
+        if (correctAnswersCount >= 8) {
+            emojiResult.innerText = "🎉";
+            titleResult.innerText = "¡Felicidades!";
+            textResult.innerText = "¡Excelente trabajo! Has dominado las estructuras básicas del Presente Simple.";
+            nextBtn.disabled = false;
+            nextBtn.style.opacity = "1";
+            nextBtn.style.cursor = "pointer";
+        } else {
+            emojiResult.innerText = "📚";
+            titleResult.innerText = "¡Sigue intentando!";
+            textResult.innerText = "Necesitas una calificación mínima de 8 para desbloquear la Lección 2. ¡Repasa las estructuras y vuelve a intentarlo!";
+            nextBtn.disabled = true;
+            nextBtn.style.opacity = "0.4";
+            nextBtn.style.cursor = "not-allowed";
+        }
+        
+        // Desplegamos la pantalla integrada
+        document.getElementById('success-screen').style.display = 'flex';
+    }
+}
+        </script>
+
+</body>
+</html>
